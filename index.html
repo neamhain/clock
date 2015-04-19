@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>READING TIME CLOCK</title>
+        <!-- Icon by Flat UI Icons (http://designmodo.com/) -->
+        <link rel="shortcut icon" href="clock.png">
+        <style>
+            * { margin: 0; padding: 0 }
+            body { background: linear-gradient(27deg, rgb(21, 21, 21) 5px, transparent 5px) 0 5px, linear-gradient(207deg, rgb(21, 21, 21) 5px, transparent 5px) 10px 0px, linear-gradient(27deg, rgb(34, 34, 34) 5px, transparent 5px) 0px 10px, linear-gradient(207deg, rgb(34, 34, 34) 5px, transparent 5px) 10px 5px, linear-gradient(90deg, rgb(27, 27, 27) 10px, transparent 10px), linear-gradient(rgb(29, 29, 29) 25%, rgb(26, 26, 26) 25%, rgb(26, 26, 26) 50%, transparent 50%, transparent 75%, rgb(36, 36, 36) 75%, rgb(36, 36, 36)); background-color: rgb(19, 19, 19); background-size: 20px 20px }
+            main { width: 40rem; height: 40rem; margin: -20rem 0 0 -20rem; position: absolute; top: 50%; left: 50%; text-align: justify }
+            span { font-weight: 200; font-size: 4.5rem; line-height: 110%; font-family: Lato; color: transparent; text-shadow: 0 0 0.125rem rgba(255, 255, 255, 0.0625); text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased !important; -moz-osx-font-smoothing: grayscale; transition: text-shadow 0.5s ease }
+            span.on { text-shadow: 0 0 0.125rem white }
+            #hour-five:after, #o-clock:after { content: ' '; letter-spacing: 10rem }
+        </style>
+    </head>
+    <body>
+        <main>
+            <span id="it">IT</span>
+            <span id="is">IS</span>
+            <span id="minute-half">HALF</span>
+            <span id="minute-ten">TEN</span>
+            <span id="minute-quarter">QUARTER</span>
+            <span id="minute-twenty">TWENTY</span>
+            <span id="minute-five">FIVE</span>
+            <span id="minutes">MINUTES</span>
+            <span id="to">TO</span>
+            <span id="past">PAST</span>
+            <span id="hour-one">ONE</span>
+            <span id="hour-three">THREE</span>
+            <span id="hour-two">TWO</span>
+            <span id="hour-four">FOUR</span>
+            <span id="hour-five">FIVE</span>
+            <span id="hour-six">SIX</span>
+            <span id="hour-seven">SEVEN</span>
+            <span id="hour-eight">EIGHT</span>
+            <span id="hour-nine">NINE</span>
+            <span id="hour-ten">TEN</span>
+            <span id="hour-eleven">ELEVEN</span>
+            <span id="hour-twelve">TWELVE</span>
+            <span id="o-clock">O'CLOCK</span>
+        </main>
+        <script>
+            setInterval(function() {
+                function $(Id) {
+                    return document.getElementById(Id);
+                }
+                
+                function AddClass(Id, Class) {
+                    $(Id).classList.add(Class);
+                }
+                
+                function RemoveClass(Id, Class) {
+                    $(Id).classList.remove(Class);
+                }
+                
+                var Now = new Date(),
+                    HourTexts = [
+                        'one', 'two', 'three', 'four', 'five', 'six',
+                        'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'
+                    ],
+                    Hours = Now.getHours() % 12,
+                    Minutes = Now.getMinutes();
+                
+                Hours = Hours ? Hours : 12;
+                
+                ['it', 'is', 'minutes', 'to'].forEach(function(Item) {
+                    AddClass(Item, 'on');
+                });
+                
+                if(Minutes > 30) {
+                    AddClass('past', 'on');
+                    
+                    Hours += 1;
+                    Minutes = 30 - Minutes % 30;
+                } else {
+                    RemoveClass('past', 'on');
+                }
+                
+                RemoveClass('minute-half', 'on');
+                RemoveClass('minute-ten', 'on');
+                RemoveClass('minute-quarter', 'on');
+                RemoveClass('minute-twenty', 'on');
+                RemoveClass('minute-five', 'on');
+                RemoveClass('o-clock', 'on');
+                
+                if(Minutes === 0) {
+                    AddClass('o-clock', 'on');
+                    RemoveClass('minutes', 'on');
+                    RemoveClass('to', 'on');
+                } else if(Minutes <= 5) {
+                    AddClass('minute-five', 'on');
+                } else if(Minutes <= 10) {
+                    AddClass('minute-ten', 'on');
+                } else if(Minutes <= 15) {
+                    AddClass('minute-quarter', 'on');
+                    RemoveClass('minutes', 'on');
+                } else if(Minutes <= 20) {
+                    AddClass('minute-twenty', 'on');
+                } else if(Minutes <= 25) {
+<<<<<<< HEAD
+=======
+                    AddClass('minute-twenty', 'on');
+>>>>>>> gh-pages
+                    AddClass('minute-five', 'on');
+                } else if(Minutes <= 30) {
+                    AddClass('minute-half', 'on');
+                    RemoveClass('minutes', 'on');
+                }
+                
+                HourTexts.forEach(function(HourText) {
+                    RemoveClass('hour-' + HourText, 'on');
+                });
+                
+                AddClass('hour-' + HourTexts[Hours - 1], 'on');
+                
+                var Text = [];
+                
+                Array.prototype.slice.call(document.querySelectorAll('span.on')).forEach(function(Item) {
+                    Text.push(Item.innerText);
+                });
+                
+                console.log(Text.join(' '));
+            }, 1000);
+
+            setTimeout(function() {
+                location.reload();
+            }, 864e5);
+        </script>
+    </body>
+</html>
